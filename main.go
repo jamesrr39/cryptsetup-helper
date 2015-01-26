@@ -1,6 +1,7 @@
 package main
 
 import (
+	"dmcrypthelper"
 	"flag"
 	"fmt"
 	"os"
@@ -23,21 +24,10 @@ func init() {
 }
 
 func main() {
-
-	OpenDMCryptContainer(containerFilePath, containerName)
+	dmcrypthelper.Open(containerFilePath, containerName)
 	devicePath := deviceFolderPath + containerName
 	MountDevice(devicePath, mountPath)
 
-}
-
-func OpenDMCryptContainer(path string, containerName string) {
-
-	fmt.Println("Attempting to open " + path)
-	cmd := exec.Command("cryptsetup", "luksOpen", path, containerName)
-	cmd.Stdout = os.Stdout
-	cmd.Stdin = os.Stdout
-	cmd.Stderr = os.Stderr
-	cmd.Run()
 }
 
 func MountDevice(devicePath string, mountPath string) {
