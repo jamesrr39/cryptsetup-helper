@@ -8,11 +8,13 @@ import (
 	"os/exec"
 )
 
-var containerName string
-var containerFilePath string
-var mountPath string
-var deviceFolderPath string
-var verbose bool
+var (
+	containerName     string
+	containerFilePath string
+	mountPath         string
+	deviceFolderPath  string
+	verbose           bool
+)
 
 func init() {
 	flag.StringVar(&containerFilePath, "fp", "", "filepath to the device to be opened")
