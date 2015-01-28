@@ -7,3 +7,6 @@ Written in Go.
 ### Prequisites
 * cryptsetup
 * go
+
+### Build
+go build src/crypthelper-open.go
