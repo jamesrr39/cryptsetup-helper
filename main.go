@@ -3,9 +3,7 @@ package main
 import (
 	"dmcrypthelper"
 	"flag"
-	"fmt"
-	"os"
-	"os/exec"
+	"mounthelper"
 )
 
 var (
@@ -28,19 +26,6 @@ func init() {
 func main() {
 	dmcrypthelper.Open(containerFilePath, containerName)
 	devicePath := deviceFolderPath + containerName
-	MountDevice(devicePath, mountPath)
-
-}
-
-func MountDevice(devicePath string, mountPath string) {
-	fmt.Println("Attempting to mount " + devicePath)
-	cmd := exec.Command("mount", devicePath, mountPath)
-	cmd.Stdout = os.Stdout
-	cmd.Stdin = os.Stdout
-	cmd.Stderr = os.Stderr
-	err := cmd.Run()
-	if err != nil {
-		fmt.Println("Error mounting " + devicePath + " at " + mountPath)
-	}
+	mounthelper.MountDevice(devicePath, mountPath)
 
 }
