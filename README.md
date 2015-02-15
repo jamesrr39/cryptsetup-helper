@@ -10,6 +10,7 @@ Written in Go.
 
 ### Build
 
+    ./add-GOPATH.sh
     go build src/crypthelper-open.go
     go build src/crypthelper-close.go
 
