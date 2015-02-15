@@ -16,7 +16,7 @@ func Open(path string, containerName string) {
 	cmd.Run()
 }
 
-func close(devicePath string) {
+func Close(devicePath string) {
 	fmt.Println("Attempting to close " + devicePath)
 	cmd := exec.Command("cryptsetup", "luksClose", devicePath)
 	cmd.Stdout = os.Stdout

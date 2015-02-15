@@ -11,7 +11,6 @@ var (
 	containerFilePath string
 	mountPath         string
 	deviceFolderPath  string
-	verbose           bool
 )
 
 func init() {
@@ -19,7 +18,6 @@ func init() {
 	flag.StringVar(&containerName, "n", "", "name of the device to be opened")
 	flag.StringVar(&mountPath, "mp", "", "path the device should be mounted at")
 	flag.StringVar(&deviceFolderPath, "dfp", "/dev/mapper/", "folder the device file should be created in, including the path separator ")
-	flag.BoolVar(&verbose, "v", false, "verbose output")
 	flag.Parse()
 }
 
