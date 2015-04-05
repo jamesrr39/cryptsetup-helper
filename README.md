@@ -10,9 +10,7 @@ Written in Go.
 
 ### Build
 
-    export GOPATH=$(pwd)
-    go build src/crypthelper-open.go
-    go build src/crypthelper-close.go
+    ./build.sh
 
 ### Install
 From building, these programs can be used out of the box.

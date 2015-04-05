@@ -21,6 +21,7 @@ func init() {
 		log.Fatal(err)
 	}
 
+	// todo - cryptsetup and mount app paths?
 	flag.StringVar(&containerFolder, "fp", currentUser.HomeDir+"/volumes/", "folder of the device to be opened")
 	flag.StringVar(&containerName, "n", "", "name of the device to be opened")
 	flag.StringVar(&mountFolder, "mp", "/mnt/"+currentUser.Username+"/", "folder the device should be mounted at")
@@ -30,8 +31,8 @@ func init() {
 
 func main() {
 	dmcrypthelper.Open(containerFolder, containerName)
-	devicePath := deviceFolderPath + containerName
-	mountPath := mountFolder + containerName
+	devicePath := deviceFolderPath + "/" + containerName
+	mountPath := mountFolder + "/" + containerName
 	mounthelper.MountDevice(devicePath, mountPath)
 
 }
