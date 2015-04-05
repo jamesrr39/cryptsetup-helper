@@ -6,10 +6,10 @@ import (
 	"os/exec"
 )
 
-func Open(path string, containerName string) {
+func Open(folderPath string, containerName string) {
 
-	fmt.Println("Attempting to open " + path)
-	cmd := exec.Command("cryptsetup", "luksOpen", path, containerName)
+	fmt.Println("Attempting to open " + folderPath + "/" + containerName)
+	cmd := exec.Command("cryptsetup", "luksOpen", folderPath+"/"+containerName, containerName)
 	cmd.Stdout = os.Stdout
 	cmd.Stdin = os.Stdout
 	cmd.Stderr = os.Stderr
