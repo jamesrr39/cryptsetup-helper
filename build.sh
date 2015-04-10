@@ -1,5 +1,6 @@
 #!/bin/bash
 
 export GOPATH=$(pwd)
-go build src/crypthelper-open.go
-go build src/crypthelper-close.go
+go clean
+go build -o bin/crypthelper-open src/crypthelper-open.go
+go build -o bin/crypthelper-close src/crypthelper-close.go
