@@ -8,10 +8,10 @@ import (
 
 var CRYPTSETUP_PATH string = "/sbin/cryptsetup"
 
-func Open(folderPath string, containerName string) {
+func Open(containerPath string, containerName string) {
 
-	fmt.Println("Attempting to open " + folderPath + "/" + containerName)
-	cmd := exec.Command(CRYPTSETUP_PATH, "luksOpen", folderPath+"/"+containerName, containerName)
+	fmt.Println("Attempting to open " + containerPath)
+	cmd := exec.Command(CRYPTSETUP_PATH, "luksOpen", containerPath, containerName)
 	cmd.Stdout = os.Stdout
 	cmd.Stdin = os.Stdout
 	cmd.Stderr = os.Stderr

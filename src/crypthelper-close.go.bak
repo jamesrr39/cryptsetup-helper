@@ -1,9 +1,8 @@
-package main
+package crypthelper
 
 import (
 	"dmcrypthelper"
 	"flag"
-	"mounthelper"
 )
 
 var (
@@ -16,6 +15,6 @@ func init() {
 }
 
 func main() {
-	mounthelper.UnmountDevice(devicePath)
+	UnmountDevice(devicePath)
 	dmcrypthelper.Close(devicePath)
 }

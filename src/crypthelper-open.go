@@ -1,38 +1,43 @@
 package main
 
 import (
+	"device"
 	"dmcrypthelper"
 	"flag"
-	"log"
-	"mounthelper"
-	"os/user"
+	"fmt"
+	"os"
+	"strings"
+	"syscall"
 )
 
 var (
-	containerName    string
-	containerFolder  string
+	containerPath    string
 	mountFolder      string
 	deviceFolderPath string
 )
 
 func init() {
-	var currentUser, err = user.Current()
-	if err != nil {
-		log.Fatal(err)
-	}
 
-	// todo - cryptsetup and mount app paths?
-	flag.StringVar(&containerFolder, "fp", currentUser.HomeDir+"/volumes/", "folder of the device to be opened")
-	flag.StringVar(&containerName, "n", "", "name of the device to be opened")
-	flag.StringVar(&mountFolder, "mp", "/mnt/"+currentUser.Username+"/", "folder the device should be mounted at")
+	flag.StringVar(&containerPath, "c", "", "container to be opened")
+	flag.StringVar(&mountFolder, "mp", "", "folder the device should be mounted at")
 	flag.StringVar(&deviceFolderPath, "dfp", "/dev/mapper/", "folder the device file should be created in, including the path separator ")
 	flag.Parse()
 }
 
 func main() {
-	dmcrypthelper.Open(containerFolder, containerName)
-	devicePath := deviceFolderPath + "/" + containerName
-	mountPath := mountFolder + "/" + containerName
-	mounthelper.MountDevice(devicePath, mountPath)
 
+	containerFragments := strings.Split(containerPath, string(os.PathSeparator))
+	containerName := containerFragments[len(containerFragments)-1]
+
+	dmcrypthelper.Open(containerPath, containerName)
+	devicePath := deviceFolderPath + string(os.PathSeparator) + containerName
+	mountPath := mountFolder + string(os.PathSeparator) //+ containerName
+
+	device, err := device.FromPath(devicePath)
+	if err != nil {
+		panic("There was an error finding the device at " + devicePath + ".\n" + err.Error())
+	}
+
+	// todo mount flags?
+	syscall.Mount(devicePath, mountPath, device.FSType, 0, "")
 }

@@ -1,10 +1,11 @@
-package mounthelper
+package device
 
 import (
 	"fmt"
 	"log"
 	"os"
 	"os/exec"
+	"syscall"
 )
 
 func MountDevice(devicePath string, mountPath string) {
@@ -27,14 +28,14 @@ func MountDevice(devicePath string, mountPath string) {
 	}
 }
 
+//
+// path Path that the container is mounted upon
 func UnmountDevice(path string) {
 	fmt.Println("Attempting to unmount " + path)
-	cmd := exec.Command("umount", path)
-	cmd.Stdout = os.Stdout
-	cmd.Stdin = os.Stdout
-	cmd.Stderr = os.Stderr
-	err := cmd.Run()
+	err := syscall.Unmount(path, 0)
 	if err != nil {
 		fmt.Println("Error unmounting " + path)
+	} else {
+		fmt.Println("Successfully unmounted " + path)
 	}
 }
