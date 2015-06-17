@@ -16,3 +16,10 @@ func TestGetFSTypeFromBlkidOutput(t *testing.T) {
 	testOutput := "/dev/mapper/test: UUID=\"01234567-89ab-cdef-0123-456789abcdef\" TYPE=\"" + mockFSType + "\""
 	assert.Equal(t, mockFSType, GetFSTypeFromBlkidOutput(testOutput), "should give the test device filesystem type")
 }
+
+func TestFromDevice_NoDevice(t *testing.T) {
+	const devicePath = "/dev/mapper/1234567890"
+	const expectedErrorMessage = "Error running '/sbin/blkid " + devicePath + "'. Is a device available at " + devicePath + "?"
+	_, err := FromPath(devicePath)
+	assert.Error(t, err, DeviceNotFoundError.Error(), "should error out on not finding a device")
+}
