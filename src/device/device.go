@@ -1,7 +1,6 @@
 package device
 
 import (
-	"errors"
 	"os/exec"
 	"strings"
 )
@@ -12,15 +11,13 @@ type Device struct {
 	FSType     string
 }
 
-type BlkidError struct {
-	DevicePath string
-}
-
-func (e *BlkidError) Error() string {
+func (e DeviceNotFoundError) Error() string {
 	return "Error running '/sbin/blkid " + e.DevicePath + "'. Is a device available at " + e.DevicePath + "?"
 }
 
-var DeviceNotFoundError = errors.New("Device not found")
+type DeviceNotFoundError struct {
+	DevicePath string
+}
 
 func FromPath(devicePath string) (*Device, error) {
 
@@ -28,7 +25,9 @@ func FromPath(devicePath string) (*Device, error) {
 	stdout, err := cmd.Output()
 
 	if err != nil {
-		return nil, DeviceNotFoundError
+		return nil, DeviceNotFoundError{
+			DevicePath: devicePath,
+		}
 	}
 
 	deviceInfo := string(stdout[:(len(stdout) - 1)])
