@@ -21,5 +21,5 @@ func TestFromDevice_NoDevice(t *testing.T) {
 	const devicePath = "/dev/mapper/1234567890"
 	const expectedErrorMessage = "Error running '/sbin/blkid " + devicePath + "'. Is a device available at " + devicePath + "?"
 	_, err := FromPath(devicePath)
-	assert.Error(t, err, DeviceNotFoundError.Error(), "should error out on not finding a device")
+	assert.Equal(t, DeviceNotFoundError, err, "should error out on not finding a device")
 }
