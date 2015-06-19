@@ -4,7 +4,6 @@ import (
 	"device"
 	"dmcrypthelper"
 	"flag"
-	"fmt"
 	"os"
 	"strings"
 	"syscall"
