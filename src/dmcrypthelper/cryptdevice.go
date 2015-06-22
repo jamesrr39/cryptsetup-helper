@@ -1,6 +1,7 @@
 package dmcrypthelper
 
 import (
+	devicepkg "device"
 	"fmt"
 	"os"
 	"os/exec"
@@ -8,10 +9,10 @@ import (
 
 var CRYPTSETUP_PATH string = "/sbin/cryptsetup"
 
-func Open(containerPath string, containerName string) {
+func Open(device *devicepkg.Device) {
 
-	fmt.Println("Attempting to open " + containerPath)
-	cmd := exec.Command(CRYPTSETUP_PATH, "luksOpen", containerPath, containerName)
+	fmt.Println("Attempting to open " + device.DevicePath)
+	cmd := exec.Command(CRYPTSETUP_PATH, "luksOpen", device.DevicePath, device.UUID)
 	cmd.Stdout = os.Stdout
 	cmd.Stdin = os.Stdout
 	cmd.Stderr = os.Stderr
