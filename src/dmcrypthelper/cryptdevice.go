@@ -9,7 +9,7 @@ import (
 
 var CRYPTSETUP_PATH string = "/sbin/cryptsetup"
 
-func Open(device *devicepkg.Device) {
+func Open(device *devicepkg.Device) (string, error) {
 
 	fmt.Println("Attempting to open " + device.DevicePath)
 	cmd := exec.Command(CRYPTSETUP_PATH, "luksOpen", device.DevicePath, device.UUID)
@@ -17,6 +17,7 @@ func Open(device *devicepkg.Device) {
 	cmd.Stdin = os.Stdout
 	cmd.Stderr = os.Stderr
 	cmd.Run()
+	return "/dev/mapper/" + device.UUID, nil
 }
 
 func Close(devicePath string) {

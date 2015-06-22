@@ -57,17 +57,21 @@ func Open() {
 		log.Fatalln("There was an error finding the device at " + containerPath + ".\n" + err.Error())
 	}
 
-	dmcrypthelper.Open(device)
+	dmpath, _ := dmcrypthelper.Open(device)
 
 	mountPath := mountFolder + string(os.PathSeparator) + device.UUID
 	if _, err := os.Stat(mountPath); err != nil {
-		if !os.IsNotExist(err) {
+		if os.IsNotExist(err) {
 			os.Mkdir(mountPath, os.FileMode(0700))
 		}
 	}
 
 	// todo mount flags?
-	syscall.Mount(device.DevicePath, mountPath, device.FSType, 0, "")
+	// fixme device.FSType shows crypto_LUKS
+	fmt.Println("trying to mount " + dmpath + " at " + mountPath + " as " + device.FSType)
+	if err := syscall.Mount(dmpath, mountPath, "ext2", 0, ""); err != nil {
+		log.Fatalln(err)
+	}
 }
 
 func Close() {
