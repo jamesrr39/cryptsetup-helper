@@ -49,13 +49,14 @@ func init() {
 func main() {
 	switch command {
 	case PROGRAM_MODE_OPEN:
-		Open()
+		open()
 	case PROGRAM_MODE_CLOSE:
-		Close()
+		close()
 	}
 }
 
-func Open() {
+// cryptsetup open and mount the device
+func open() {
 
 	volume, err := device.FromPath(containerPath)
 	if nil != err {
@@ -81,8 +82,8 @@ func Open() {
 	}
 }
 
-func Close() {
-	// unmount
+// unmount and cryptsetup close the device
+func close() {
 
 	mountedDevice, err := device.FromMountPoint(containerPath)
 	if nil != err {
