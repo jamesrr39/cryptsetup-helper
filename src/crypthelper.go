@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strings"
 	"syscall"
 )
 
@@ -38,7 +39,7 @@ func init() {
 		log.Fatalln("Program Mode not found")
 	}
 	if len(os.Args) > 2 {
-		containerPath = os.Args[2]
+		containerPath = strings.TrimRight(os.Args[2], string(os.PathSeparator))
 	} else {
 		log.Fatalln("No container path specified")
 	}
