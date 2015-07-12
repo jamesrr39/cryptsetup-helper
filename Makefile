@@ -1,6 +1,8 @@
-GOPATH := /home/james/src/dm-crypt-helper/go-app
+GOPATH := $(shell pwd)
 
 build:
 	GOPATH=$(GOPATH) go clean
 	GOPATH=$(GOPATH) go build -o bin/crypthelper -a src/crypthelper.go
 
+test:
+	GOPATH=$(GOPATH) go test ./...

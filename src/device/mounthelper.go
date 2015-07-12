@@ -8,6 +8,7 @@ import (
 	"syscall"
 )
 
+// mount a device on the mountpath
 func MountDevice(devicePath string, mountPath string) {
 	_, statErr := os.Stat(mountPath)
 	if os.IsNotExist(statErr) {
@@ -28,7 +29,6 @@ func MountDevice(devicePath string, mountPath string) {
 	}
 }
 
-//
 // path Path that the container is mounted upon
 func UnmountDevice(path string) {
 	fmt.Println("Attempting to unmount " + path)

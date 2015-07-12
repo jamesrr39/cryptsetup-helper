@@ -2,30 +2,38 @@ package dmcrypthelper
 
 import (
 	devicepkg "device"
-	"fmt"
+	"log"
 	"os"
 	"os/exec"
 )
 
+// Path to cryptsetup executable
 var CRYPTSETUP_PATH string = "/sbin/cryptsetup"
 
 func Open(device *devicepkg.Device) (*devicepkg.Device, error) {
 
-	fmt.Println("Attempting to open " + device.DevicePath)
+	log.Println("Attempting to open " + device.DevicePath)
 	cmd := exec.Command(CRYPTSETUP_PATH, "luksOpen", device.DevicePath, device.UUID)
 	cmd.Stdout = os.Stdout
 	cmd.Stdin = os.Stdout
 	cmd.Stderr = os.Stderr
-	cmd.Run()
+	if err := cmd.Run(); nil != err {
+		return nil, err
+	}
 	openedDevicePath := "/dev/mapper/" + device.UUID
-	return devicepkg.FromPath(openedDevicePath)
+	openedDevice, err := devicepkg.FromPath(openedDevicePath)
+	if nil != err {
+		return nil, err
+	}
+	return openedDevice, nil
 }
 
-func Close(devicePath string) {
-	fmt.Println("Attempting to close " + devicePath)
+func Close(devicePath string) error {
+
+	log.Println("Attempting to close " + devicePath)
 	cmd := exec.Command(CRYPTSETUP_PATH, "luksClose", devicePath)
 	cmd.Stdout = os.Stdout
 	cmd.Stdin = os.Stdout
 	cmd.Stderr = os.Stderr
-	cmd.Run()
+	return cmd.Run()
 }
