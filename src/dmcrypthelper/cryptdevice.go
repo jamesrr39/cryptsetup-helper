@@ -12,7 +12,7 @@ var CRYPTSETUP_PATH string = "/sbin/cryptsetup"
 
 func Open(device *devicepkg.Device) (*devicepkg.Device, error) {
 
-	log.Println("Attempting to open " + device.DevicePath)
+	log.Printf("Attempting to open %s", device.DevicePath)
 	cmd := exec.Command(CRYPTSETUP_PATH, "luksOpen", device.DevicePath, device.UUID)
 	cmd.Stdout = os.Stdout
 	cmd.Stdin = os.Stdout
@@ -30,7 +30,7 @@ func Open(device *devicepkg.Device) (*devicepkg.Device, error) {
 
 func Close(devicePath string) error {
 
-	log.Println("Attempting to close " + devicePath)
+	log.Printf("Attempting to close %s", devicePath)
 	cmd := exec.Command(CRYPTSETUP_PATH, "luksClose", devicePath)
 	cmd.Stdout = os.Stdout
 	cmd.Stdin = os.Stdout
