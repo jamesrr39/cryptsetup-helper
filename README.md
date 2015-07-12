@@ -4,19 +4,21 @@ Helper programs for cryptsetup, to make opening and closing volumes easier.
 
 Written in Go.
 
-### Prequisites
-* cryptsetup
-* go
+### Requirements
+
+* build
+  * go
+  * make
+* runtime (the app shells out to a couple of command line programs)
+  * /sbin/cryptsetup
+  * /sbin/blkid
+
 
 ### Build
 
-    ./build.sh
+    make
 
 ### Install
-From building, these programs can be used out of the box.
-You may want to set the setuid bit to allow normal users using the programs.
+build, and then to run:
 
-    sudo chmod u+s crypthelper-open
-    sudo chmod u+s crypthelper-close
-
-If you are using a filesystem mounted with the nosuid option (ecryptfs forces this), you need to move this program outside of that filesystem to use the setuid bit. [More](http://unix.stackexchange.com/a/151227)
+    bin/crypthelper open|close container-path
